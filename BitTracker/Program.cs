@@ -9,17 +9,29 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddControllers();
 
 // 註冊 HttpClient 和我們的價格服務
+var coingeckoApiKey = Environment.GetEnvironmentVariable("COINGECKO_API_KEY");
+coingeckoApiKey = "CG-hS5MRJd4Mx95BSL2AUFMRc6Q";
+
 builder.Services.AddHttpClient<ICryptoPriceService, CoinGeckoPriceService>(client =>
 {
+    // 1. 使用 Pro API 的正確網址
     client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
-    // 將請求的基礎 URL 改為指向代理伺服器
-    //client.BaseAddress = new Uri("https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/");
 
-    client.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
-    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9");
-    //client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
-    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36");
-    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+    // 2. 將 API Key 作為 Header 發送
+    if (!string.IsNullOrEmpty(coingeckoApiKey))
+    {
+        client.DefaultRequestHeaders.Add("x-cg-demo-api-key", coingeckoApiKey);
+    }
+
+    // 3. 只保留一個簡單的 User-Agent
+    client.DefaultRequestHeaders.Add("User-Agent", "My-Bitcoin-Tracker-App");
+
+})
+// 4. 啟用自動解壓縮
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    AutomaticDecompression = System.Net.DecompressionMethods.GZip
+                           | System.Net.DecompressionMethods.Deflate
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
