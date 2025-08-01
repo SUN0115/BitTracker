@@ -8,11 +8,13 @@ namespace BitTracker.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<CoinGeckoPriceService> _logger;
+        private readonly string? _apiKey; // 宣告一個欄位來儲存金鑰
 
         public CoinGeckoPriceService(HttpClient httpClient, ILogger<CoinGeckoPriceService> logger)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _apiKey = Environment.GetEnvironmentVariable("COINGECKO_API_KEY");
         }
 
         /// <summary>
@@ -24,7 +26,9 @@ namespace BitTracker.Services
             try
             {
                 // 設定請求子網址
-                const string requestUri = "coins/markets?vs_currency=usd&ids=bitcoin";
+                //const string requestUri = "coins/markets?vs_currency=usd&ids=bitcoin";
+                var requestUri = $"coins/markets?vs_currency=usd&ids=bitcoin&x_cg_demo_api_key={_apiKey}";
+
                 // 抓出值 並轉成List<CoinGeckoMarketDto>
                 var response = await _httpClient.GetFromJsonAsync<List<CoinGeckoMarketDto>>(requestUri);
                 // 取第一個
@@ -47,8 +51,10 @@ namespace BitTracker.Services
         {
             try
             {
-                var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}";
-
+                //var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}";
+                // 在請求的 URL 中附加上 API Key
+                var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}&x_cg_demo_api_key={_apiKey}";
+                
                 // 發送 GET 請求取得資料
                 var response = await _httpClient.GetAsync(requestUri);
                 // 非2XX 丟出例外
