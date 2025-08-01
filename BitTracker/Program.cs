@@ -13,9 +13,12 @@ builder.Services.AddHttpClient<ICryptoPriceService, CoinGeckoPriceService>(clien
 {
     client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
 
-    // 加上一個標準的瀏覽器 User-Agent，讓請求看起來更正常
-    client.DefaultRequestHeaders.Add(
-        "User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
+    // ▼▼▼ 完整模???器?? ▼▼▼
+    client.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
+    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9");
+    client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
+    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36");
+    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
