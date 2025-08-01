@@ -1,0 +1,6 @@
+@BitTracker_HostAddress = http://localhost:5029
+
+GET {{BitTracker_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
