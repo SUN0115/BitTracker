@@ -30,7 +30,8 @@ builder.Services.AddCors(options =>
                       {
                           // 允許你的 Vue 前端來源 (根據你的錯誤訊息是 localhost:3000)
                           policy.WithOrigins("http://localhost:3000",
-                                            "http://192.168.250.143:3000")
+                                            "http://192.168.250.143:3000",
+                           "https://btc-tracker-ui-1rjs.vercel.app")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                       });
