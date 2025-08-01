@@ -27,7 +27,7 @@ namespace BitTracker.Services
             {
                 // 設定請求子網址
                 //const string requestUri = "coins/markets?vs_currency=usd&ids=bitcoin";
-                var requestUri = $"coins/markets?vs_currency=usd&ids=bitcoin&x_cg_demo_api_key={_apiKey}";
+                var requestUri = $"coins/markets?vs_currency=usd&ids=bitcoin&x_cg_pro_api_key={_apiKey}";
 
                 // 抓出值 並轉成List<CoinGeckoMarketDto>
                 var response = await _httpClient.GetFromJsonAsync<List<CoinGeckoMarketDto>>(requestUri);
@@ -53,7 +53,7 @@ namespace BitTracker.Services
             {
                 //var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}";
                 // 在請求的 URL 中附加上 API Key
-                var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}&x_cg_demo_api_key={_apiKey}";
+                var requestUri = $"coins/bitcoin/market_chart?vs_currency=usd&days={days}&x_cg_pro_api_key={_apiKey}";
                 
                 // 發送 GET 請求取得資料
                 var response = await _httpClient.GetAsync(requestUri);
