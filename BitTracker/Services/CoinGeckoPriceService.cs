@@ -31,9 +31,20 @@ namespace BitTracker.Services
                 //var requestUri = $"coins/markets?vs_currency=usd&ids=bitcoin&x_cg_pro_api_key={_apiKey}";
 
                 // 抓出值 並轉成List<CoinGeckoMarketDto>
-                var response = await _httpClient.GetFromJsonAsync<List<CoinGeckoMarketDto>>(requestUri);
+                //var response = await _httpClient.GetFromJsonAsync<List<CoinGeckoMarketDto>>(requestUri);
+                var response = await _httpClient.GetAsync(requestUri);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    string errorBody = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("CoinGecko API 請求失敗。狀態碼: {StatusCode}, URL: {RequestUri}, 詳細錯誤: {ErrorBody}",
+                        response.StatusCode, requestUri, errorBody);
+                    return null;
+                }
+                
+                var marketDataList = await response.Content.ReadFromJsonAsync<List<CoinGeckoMarketDto>>();
                 // 取第一個
-                return response?.FirstOrDefault();
+                return marketDataList?.FirstOrDefault();
             }
             catch (Exception ex)
             {
