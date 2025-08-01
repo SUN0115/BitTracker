@@ -10,7 +10,9 @@ builder.Services.AddControllers();
 
 // 註冊 HttpClient 和我們的價格服務
 var coingeckoApiKey = Environment.GetEnvironmentVariable("COINGECKO_API_KEY");
+//coingeckoApiKey = "CG-h11111114Mx95BSL2AUFMRc6Q";
 coingeckoApiKey = "CG-hS5MRJd4Mx95BSL2AUFMRc6Q";
+
 
 builder.Services.AddHttpClient<ICryptoPriceService, CoinGeckoPriceService>(client =>
 {
