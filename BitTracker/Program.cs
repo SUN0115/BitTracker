@@ -11,9 +11,10 @@ builder.Services.AddControllers();
 // 註冊 HttpClient 和我們的價格服務
 builder.Services.AddHttpClient<ICryptoPriceService, CoinGeckoPriceService>(client =>
 {
-    client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+    //client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+    // 將請求的基礎 URL 改為指向代理伺服器
+    client.BaseAddress = new Uri("https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/");
 
-    // ▼▼▼ 完整模???器?? ▼▼▼
     client.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
     client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9");
     client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
